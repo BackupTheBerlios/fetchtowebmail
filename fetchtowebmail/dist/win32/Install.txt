@@ -1,0 +1,21 @@
+=============================================
+ Installationsanweisungen für fetchtowebmail 
+ (Windows Standalone-Version)
+=============================================
+
+1. Entpacken Sie den Inhalt des Zip-Archiv in das Verzeichnis,
+   wohin Sie fetchtowebmail installieren möchten.
+
+2. Öffnen Sie die Datei "fetchtowebmailrc" in einem Texteditor 
+   (der Windows-Standardeditor sollte ausreichen) und passen Sie die 
+   Einstellungen an Ihre Anforderungen an.
+
+3. Führen Sie das Skript (fetchtowebmail.exe) aus, um Ihre Konfiguration zu testen.
+   Um evtl. auftretende Fehlermeldungen sehen zu können, tun Sie das am besten 
+   entweder direkt auf der Kommandozeile oder Sie verwenden die Batch-Datei 
+   "runandwait.bat". (diese fordert nach dem Ausführen von fetchtowebmail.exe
+   zum Drücken einer beliebigen Taste auf)
+   Wenn alles klappt, sollten die Webmail-E-Mails wenig später bei der 
+   in der Konfiguration angegebenen Adresse ankommen. 
+   Fertig! :-)
+

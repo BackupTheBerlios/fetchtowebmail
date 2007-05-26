@@ -1,0 +1,90 @@
+===========================
+ README für fetchtowebmail
+===========================
+
+HINWEIS: fetchtowebmail befindet sich immer noch im Beta-Stadium 
+	 Auf jeden Fall ist davon auszugehen, dass das Skript immer noch viele
+	 unentdeckte Bugs hat. Vertrauen Sie ihm also nicht zu sehr, d.h.
+	 überprüfen Sie von Zeit zu Zeit, ob es auch wirklich korrekt arbeitet.
+	 
+
+Hinweise zum Übergang von Version 0.2.x->0.3.0
+----------------------------------------------
+
+In Version 0.3.0 wurde ein größerer Teil des Skriptes neu geschrieben, da das
+"neue" Interface von T-Online ziemlich anders als das alte funktioniert. Daher
+werden bei der Einstellung "fetchonlynewmails=1" nach dem Update einmalig alle
+Mails neu abgeholt. Ansonsten sollten sich keine Änderungen/Besonderheiten ergeben.
+
+Beschreibung
+------------
+
+fetchtowebmail (fetch T-Online webmail) ist ein Python-Skript, das E-Mails 
+über das Webmail-Interface ( https://webmail.t-online.de/ ) von T-Online 
+automatisiert herunterlädt und diese dann weiterleitet, um sie mit seinem 
+"normalen" Mailprogramm bearbeiten zu können.
+Das ist dann praktisch, wenn man über einen anderen T-Online-Account bzw. 
+Mitbenutzer oder einen anderen Provider eingewählt ist, da ein POP3-Abruf hier 
+normalerweise (d.h. ohne eine höhere Grundgebühr zu zahlen) nicht möglich ist.
+Die E-Mails werden dabei verschlüsselt über HTTPS abgerufen und dann entweder 
+über einen SMTP-Server an eine andere E-Mail-Adresse oder die Standard-Eingabe 
+(stdin) eines anderen Programms weitergeleitet. Auf Wunsch werden die 
+abgerufenen E-Mails danach vom Server gelöscht.
+
+fetchtowebmail wurde unabhängig von und ohne irgendeine offizielle 
+Unterstützung durch T-Online entwickelt.
+
+Daher sollte man fetchtowebmail auch nicht einsetzen, wenn man sich darauf 
+verlassen *muss*, dass die E-Mails immer korrekt abgerufen werden, da Änderungen 
+im Web-Interface durch T-Online (die nuneinmal für normale Kunden wie mich 
+nicht vorhersehbar sind) das Skript relativ schnell "durcheinanderbringen" 
+können.
+Ich werde bei einer Änderung des Interfaces zwar wahrscheinlich versuchen, das 
+Skript in den folgenden Wochen daran anzupassen, allerdings kann (und will) ich 
+keine "Maximaldauer" dafür angeben (bzw. auch nicht versprechen, dass diese 
+Anpassung überhaupt stattfinden wird).
+
+
+Installation
+------------
+
+Siehe Datei "INSTALL"
+
+
+Konfiguration
+-------------
+
+Für eine Beschreibung aller unterstützten Optionen, lesen Sie bitte die 
+Kommentare in fetchtowebmailrc.example.
+Sollten weitere Fragen auftreten, beachten Sie bitte auch die Datei FAQ.
+
+
+Copyright/Rechtliches
+---------------------
+
+Dieses Programm steht unter der GPL. Für weitere Details lesen Sie bitte den
+Inhalt der Datei "COPYING".
+
+Ich möchte an dieser Stelle nocheinmal betonen, dass ich fetchtowebmail ohne 
+jede Garantie/Gewährleistung anbiete und nicht für irgendwelche Schäden, die
+es evtl. anrichtet, verantwortlich zu machen bin. Die Benutzung des Programms
+erfolgt auf eigene Gefahr.
+(d.h.: Geben Sie z.B. bitte nicht mir die Schuld, wenn Sie wegen dem Skript 
+eine wichtige E-Mail nicht bekommen haben)
+
+In diesem Dokument werden Markennamen ohne gesonderte Kennzeichnung verwendet.
+Diese Namen sind Eigentum der jeweiligen Besitzer.
+
+
+Kontakt
+-------
+
+Ich bin über E-Mail unter folgender Adresse zu erreichen:
+jwolz@freenet.de (Jonas Wolz)
+
+Ich werde alle E-Mails, die ich bekomme, lesen und ggf. beantworten; erwarten 
+Sie aber bitte nicht, dass ich alle E-Mails immer innerhalb von 24h beantworte.
+
+Neue Versionen von fetchtowebmail finden Sie auf der Homepage unter:
+http://www.fetchtowebmail.de.vu/
+

@@ -1,0 +1,111 @@
+# Konfigurationsdatei für fetchtowebmail
+# --------------------------------------
+#
+# Als Trenner zwischen Name des Werts und dem eigentlichen Wert können 
+# entweder ":" oder "=" verwendet werden.
+# Bei Zeichenfolgen als Wert müssen _keine_ Anführungszeichen verwendet
+# werden. Wenn trotzdem welche verwendet werden, werden diese ignoriert.
+# Zeilen, die (wie diese) mit # anfangen, sind Kommentare und werden ignoriert.
+
+# In der Sektion "retrieval" stehen die Einstellungen für den E-Mail-Abruf
+[retrieval]
+
+# Der Benutzername, der zum Einloggen bei dem Webmail-Formular
+# verwendet werden soll (bei foo@t-online.de wäre er i.d.R. "foo")
+username = foo
+
+# Das "Webpasswort", also das Passwort, das zum Einloggen verwendet werden soll
+password = bar
+
+# Wenn deleteafterfetching = 1 ist, werden die E-Mails nach dem Abrufen vom Server gelöscht.
+# ACHTUNG: Diese Option ist etwas gefährlich, da, wenn beim Weitertransport etwas schiefgeht,
+#          hierdurch u.U. E-Mails verlorengehen könnten
+# Mögliche Werte: 0 (Standard) oder 1
+deleteafterfetching = 0
+
+# Wenn fetchonlynewmails = 1 ist, speichert das Skript beim Beenden die internen IDs des T-Online-Servers 
+# für die derzeit vorhandenen E-Mails in der durch mailidsfile angegebenen Datei. Mails, die beim nächsten
+# Abruf eine dort gespeicherte ID haben, werden dann nicht nochmal abgerufen.
+# Hinweis: Es ist nicht sehr sinnvoll diese Option gleichzeitig mit "deleteafterfetching" (s.o.) zu verwenden.
+# Mögliche Werte: 0 (Standard) oder 1
+fetchonlynewmails = 1
+
+# Eine durch Leerzeichen getrennte Liste der Ordner, die abgeholt werden sollen.
+# Wenn "INBOX" (der Posteingang) nicht enthalten ist, wird automatisch ein Eintrag dafür hinzugefügt.
+# Der Ordner "Gesendete Objekte" heißt "INBOX.Sent", der Ordner Spam "INBOX.SPAM".
+# Standardwert: (leer)
+#pollfolders = INBOX INBOX.Spam
+
+# Die Datei, in der die IDs gespeichert werden sollen. 
+# Relative Pfade sind hier relativ zum Verzeichnis, in der sich das Skript befindet (und _nicht_ etwa
+# relativ zum aktuellen Verzeichnis). Auf Unix-Systemen können Sie hier auch "~" als Platzhalter
+# für das Home-Verzeichnis verwenden.
+# Standardwert: Auf Unix-Systemen: ~/.fetchtowebmailids
+#               Andere Systeme:    fetchtowebmailids
+#                                  (die Datei wird hier also im gleichen Verzeichnis wie das Skript gespeichert)
+#mailidsfile = fetchtowebmailids
+
+# Soll PycURL verwendet werden oder nicht?
+# Wenn Sie nicht wissen, was diese Einstellung bedeutet, lassen Sie sie bitte einfach auskommentiert.
+# Mögliche Werte:
+#       0: PycURL nicht verwenden
+#       1: PycURL auf jeden Fall verwenden
+#       2: (Standard) PycURL verwenden, falls installiert
+#usepycurl = 2
+
+# In der Sektion "forwarding" stehen die Einstellungen für die E-Mail-Weiterleitung
+[forwarding]
+
+# Die E-Mail-Adresse, an die die abgerufenen E-Mails weitergeleitet werden.
+# Wenn die Umgebungsvariable "USER" vorhanden wird, ist diese standardmäßig $USER@localhost.
+forwardaddress = ihre.adresse@ihrisp.de
+
+# Hiermit kann eine (beliebig wählbare) Headerzeile zu den abgeholten
+# Mails hinzugefügt werden. Dies ist nützlich, wenn sie die T-Online-Mails per 
+# Filter/procmail/etc. einsortieren möchten.
+#addheaderline = X-Fetched-By: fetchtowebmail
+
+# Wenn prependtosubject gesetzt ist, wird der dort eingetragene Text dem Betreff 
+# aller abgeholten Mails vorangestellt. Dies ist besonders nützlich, falls Ihr
+# Mailer nicht auf Headerzeilen filtern kann.
+# Beispiel: Mit prependtosubject=[T-Online] wird z.B. "Betreff: Test" 
+# in "Betreff: [T-Online] Test" geändert.
+#prependtosubject = [T-Online]
+
+# Wenn usesmtp = 1 ist, werden die E-Mails über den in smtpserver angegebenen Server 
+# via SMTP verschickt.
+# Wenn usesmtp = 0 ist, werden die E-Mails an die Standardeingabe (stdin) des in mda
+# angegebenen Programms übergeben.
+# Mögliche Werte: 0 oder 1 (Standard)
+usesmtp = 1
+
+# Gibt den SMTP-Server an, über den die E-Mails verschickt werden sollen.
+# Über eine Schreibweise wie z.B. localhost:123 kann auch ein anderer Port 
+# als der Standard-SMTP-Port (25) angegeben werden
+# Da unter Windows meist kein lokaler SMTP-Server vorhanden ist, bietet
+# es sich hier ggf. an, den SMTP-Relayserver Ihres ISP zu verwenden.
+# Wird nur beachtet, wenn usesmtp = 1 ist.
+# Standardwert: localhost
+smtpserver = smtprelay.ihrisp.de
+
+# Wenn smtpuser *und* smtppass angegeben sind, wird versucht, sich bei
+# dem SMTP-Server vorher mit diesen Daten zu authentifizieren.
+# Das funktioniert nur mit Python-Versionen >= 2.2 (bei älteren Versionen
+# bietet das Modul smtplib diese Funktion nicht)
+# Diese Einstelllungen werden logischerweise nur beachtet, wenn usesmtp = 1 ist
+#
+# Der Benutzername für die SMTP-Authentifizierung:
+#smtpuser = benutzername
+# Das Passeort
+#smtppass = passwort
+
+# An die Standardeingabe des nachfolgend durch mda (Mail Delivery Agent)
+# angegebenen Programms werden die E-Mails weitergeleitet, wenn usesmtp = 0 ist.
+# Dabei wird das Programm für jede weiterzuleitende E-Mail einmal aufgerufen.
+#
+# In der nachfolgenden Angabe können folgende Platzhalter verwendet werden:
+#  %t   Wird durch die oben durch forwardaddress angegebene Weiterleitungsadresse ersetzt
+#  %f   Wird durch die "Original"-Absenderadresse (in From-Feld der E-Mail angegeben) ersetzt
+# Standardwert: /usr/sbin/sendmail -f %f -bm %t
+mda = c:\pfad\zu\einem\programm.exe
+

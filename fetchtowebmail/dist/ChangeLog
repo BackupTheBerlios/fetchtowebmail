@@ -1,0 +1,83 @@
+2006-03-24  Jonas Wolz <jonas.wolz@freenet.de>
+	* Incorporated a small patch by Christian Weinberger 
+	* to handle empty From headers
+
+2006-03-08  Jonas Wolz <jonas.wolz@freenet.de>
+	* Version: 0.3.2
+
+	* Minor change to adapt to webmail interface changes
+
+2005-11-18  Jonas Wolz <jonas.wolz@freenet.de>
+	
+	* Version: 0.3.1
+
+	* Added support to poll additional folders (like Sent or Spam).
+
+2005-11-11  Jonas Wolz <jonas.wolz@freenet.de>
+
+	* Version: 0.3.0
+
+	* Major rewrite to adapt the script to the new Webmail interface
+
+2005-09-24  Jonas Wolz <jonas.wolz@freenet.de>
+
+	* Version: 0.2.6
+
+	* Replaced urllib2.urlopen by urllib.urlopen to fix problems with
+	* Python 2.4.
+	* Thanks to Steffen Steidten <steffen@steidten.de> for
+	* pointing this out.
+
+2005-07-27  Jonas Wolz <jonas.wolz@freenet.de>
+
+	* Version: 0.2.5
+
+	* Added settings to prepend text to the mail subject and
+	* to add a custom header line.
+
+
+2004-08-06  Jonas Wolz <jonas.wolz@freenet.de>
+
+	* Version: 0.2.3
+
+	* Added exception handling for mail delivery via a pipe to the MDA
+
+	* Added encoding declaration to avoid warning with Python 2.3
+
+
+2004-05-07  Jonas Wolz <jonas.wolz@freenet.de>
+
+	* Version: 0.2.2
+
+	* Changed URL to "https://modem.webmail.t-online.de/" because of
+	* changes by T-Online
+
+
+2004-01-10  Jonas Wolz <jonas.wolz@freenet.de>
+
+	* Version: 0.2.1
+
+	* Changed URL to "https://webmail.t-online.de/index.cgp" because of
+	* changes by T-Online
+
+
+2003-09-16  Jonas Wolz <jonas.wolz@freenet.de>
+	
+	* Version: 0.2
+	
+	* Adapted the mail download code to the new form (fetching all
+	* mails didn't work, fetching only new ones did -> I didn't notice
+	* that bug since I usually fetch only new ones :-( )
+
+	* Now uses a own function for temporary file creation under Windows,
+	* since os.tmpfile() used files in the root directory (-> didn't work
+	* with user permissions)
+
+	* Some additional bugfixes
+
+
+2003-06-01  Jonas Wolz <jonas.wolz@freenet.de>
+
+	* First published version: 0.1
+
+

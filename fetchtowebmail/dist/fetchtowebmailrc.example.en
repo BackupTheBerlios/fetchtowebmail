@@ -1,0 +1,91 @@
+# fetchtowebmailrc configuration file
+# -----------------------------------
+#
+# You can use either "=" or ":" as a separator between the settings' names 
+# and the actual values.
+# For string options you don't have to use quotation marks, but if do you use 
+# some, they are stripped.
+
+# Mail retrieval settings
+[retrieval]
+
+# The username to use for login
+# (e.g. for foo@t-online.de it's usually "foo")
+username = foo
+
+# The "Webpasswort", that means the password to use for login
+password = bar
+
+# If deleteafterfetching is set to 1, the mails are deleted after fetching them 
+# from the server.
+# This is a bit dangerous! (you may lose mails if something weird happens)
+# 
+# Possible values: 0 (default) or 1
+deleteafterfetching = 0
+
+# If fetchonlynewmails is set to 1, the server's "internal" ids of the mails are saved
+# in the file set by mailidsfile. When the script is started the next time only
+# mails with ids not in the saved list are fetched.
+# Possible values: 0 (default) or 1
+fetchonlynewmails = 1
+
+# A whitespace separated list of folders to poll.
+# If a entry for "INBOX" is not included, it is added automatically.
+# Default: (empty)
+#pollfolders = INBOX INBOX.Spam
+
+# The file the ids are saved in.
+# If you use relative paths, those are relative to the directory where the script is located.
+# On Unix you can use ~ as a placeholder for the home directory.
+# Default value:         Unix: ~/.fetchtowebmailids
+#               Other systems:    fetchtowebmailids
+#mailidsfile = ~/.fetchtowebmailids
+
+# Use PycURL?
+# If you don't know what this setting means, leave it commented out.
+#       0: Never use PycURL
+#       1: Force usage of PycURL
+#       2: (default) Use PycURL if installed
+#usepycurl = 2
+
+# Settings for mail forwarding
+[forwarding]
+
+# The address to forward to
+# If the environment variable "USER" is present, this is $USER@localhost by default
+#forwardaddress = user@localhost
+
+# With this setting, you can add an arbitrary line to the mail header (e.g. for filtering)
+#addheaderline = X-Fetched-By: fetchtowebmail
+
+# The text set with prependtosubject is prepended to the mail's subject line
+# (e.g. "Subject: Test" is changed to "Subject: [T-Online] Test")
+#prependtosubject = [T-Online]
+
+# If usesmtp is 1, mails are sent using smtp
+# else they are piped into the program specified by mda
+# Possible values: 0 or 1 (default)
+usesmtp = 1
+
+# The SMTP server to use
+# Default value: localhost
+smtpserver = localhost
+
+# Settings for SMTP authentication. This is only tried if both
+# smtpuser and smtppass are set.
+# Only works with Python versions >= 2.2
+#
+# The username
+#smtpuser = benutzername
+# The password.
+#smtppass = passwort
+
+# If usesmtp is 0, the mails are piped into standard input of the application
+# specified by mda. It is called once for each mail to forward.
+#
+# You may use the following placeholders:
+#  %t   is replaced by the forward address
+#  %f   is replaced by the "From" address of the mail forwarded
+# Default value: /usr/sbin/sendmail -f %f -bm %t
+mda = /usr/sbin/sendmail -f %f -bm %t
+

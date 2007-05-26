@@ -1,0 +1,41 @@
+========================
+ FAQ für fetchtowebmail
+========================
+
+
+F: Ich benutze Windows und/oder habe keinen lokalen SMTP-Server/MTA 
+   eingerichtet. Wie kann ich fetchtowebmail trotzdem benutzen?
+A: Ein Workaround für diesen Fall wäre, dass Sie einen SMTP-Relay-Server (z.B.
+   den Ihres ISP) im Internet benutzen, um die E-Mails an eine Ihrer eigenen 
+   E-Mail-Adressen weiterzuleiten.
+   Das hat natürlich den großen Nachteil, dass die E-Mails insgesamt zweimal 
+   mehr über Ihre "Leitung" geschickt werden, was insbesondere bei größeren
+   Mails natürlich etwas ungeschickt ist.
+
+
+F: Welche Kommandozeilenparameter unterstützt fetchtowebmail?
+A: "fetchtowebmail -h" gibt eine Übersicht aus:
+
+    Usage: fetchtowebmail [Options]
+
+    Options:
+      -V, --version           print the version and exit
+      -h, --help              print this message and exit
+      -c, --configfile=<file> specifies the configuration file to use
+      -s, --silent            print only error messages
+      -d, --debugmsg          also print debug messages (this is NOT debug mode)
+          --nopermissioncheck don't check if the configuration file has secure
+                              permissions (i.e. that only the owner can read it)
+
+    fetchtowebmail returns a zero exit code if fetching emails was successful
+    or if there were no (new) emails to fetch, non-zero if an error occured.
+
+F: Sollte ich PycURL installieren, auch wenn ich Python 2.4 oder höher installiert habe?
+A: Im Prinzip ist es völlig egal.
+   PycURL hat gegenüber den Standard-Python-Bibliotheken (urllib2) leichte 
+   Geschwindigkeitsvorteile beim Abruf vieler Mails (da für jede Mail ein eigener
+   HTTP-Request gesendet werden muss).
+   Wenn die Installation von PycURL für Sie kein Problem darstellt (z.B. wenn es
+   unter Linux ein Paket) gibt, sollten Sie es im Zweifelsfall einfach mal ausprobieren.
+   Wenn es Ihnen ohne PycURL schnell genug geht, können sie das aber auch einfach lassen ;-)
+   

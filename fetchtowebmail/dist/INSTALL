@@ -1,0 +1,100 @@
+=============================================
+ Installationsanweisungen für fetchtowebmail 
+=============================================
+
+Note: For installation instructions in English, please see the file "README.en".
+
+Installationsvoraussetzungen
+----------------------------
+
+*Eine* der folgenden Voraussetzungen muss erfüllt sein:
+
+Möglichkeit 1:
+Python Version >= 2.4 ist installiert
+Möglichkeit 2:
+Python Version >= 2.2 *und* PycURL (http://pycurl.sf.net) ist installiert
+
+
+Linux/*BSD/andere "unixartige" Systeme
+--------------------------------------
+
+Die Installation ist relativ einfach:
+
+0. Falls noch nicht geschehen, installieren Sie Python (+ evtl. PycURL) auf 
+   Ihrem System. (Download unter http://www.python.org/ (bzw. http://pycurl.sf.net)
+   oder verwenden Sie passende Pakete für Ihre Distribution)
+   Achten Sie darauf, dass die installierte Version Unterstützung für SSL hat 
+   (wenn sie es nicht hat, merken Sie das spätestens an der Fehlermeldung beim
+   Ausführen von fetchtowebmail ;-) ).
+
+1. Führen Sie das Shell-Skript "setup.sh" aus, um den richtigen Pfad zum 
+   Python-Interpreter einzustellen. Wenn Sie mehrere Versionen installiert 
+   haben, können Sie dem Skript als Parameter auch den Namen der gewünschten 
+   Datei übergeben (z.B. "./setup.sh python2.2").
+   Das angepasste Skript wird als "fetchtowebmail" (ohne ".py") abgelegt.
+
+2. (Optional) Wenn Sie das Skript systemweit ausführen möchten, kopieren Sie es
+   in ein entsprechendes Verzeichnis (z.B. /usr/local/bin).
+   Sie können dazu auch das Skript "install.sh" verwenden. Diesem kann als 
+   Parameter das gewünschte Installationsverzeichnis übergeben werden.
+
+3. Öffnen Sie die Vorlage für die Konfigrationsdatei "fetchtowebmailrc.example"
+   und passen Sie die Einstellungen an Ihre Anforderungen an.
+   Wenn Sie fertig sind, speichern Sie diese als ".fetchtowebmailrc" in Ihrem 
+   Home-Verzeichnis (bzw. in dem Home-Verzeichnis des Users, der später das 
+   Skript ausführen soll)
+
+4. Führen Sie das Skript aus, um Ihre Konfiguration zu testen.
+   Wenn alles klappt, sollten die Webmail-E-Mails wenig später bei der in der 
+   Konfiguration angegebenen Adresse ankommen. 
+   Fertig! :-)
+
+
+Windows
+-------
+
+0. Falls noch nicht geschehen, installieren Sie Python (+ ggf. PycURL) auf 
+   Ihrem System. Sie können dazu vorkompilierte Pakete oder den Source-Code 
+   unter http://www.python.org/ herunterladen.
+   Beachten Sie dabei, dass die vorkompilierten Pakete von www.python.org (für 
+   Python V. < 2.3) _keine_ Unterstützung für SSL mitbringen, die von 
+   fetchtowebmail jedoch benötigt wird.
+   Sie können unter http://alldunn.com/python/ jedoch ein Archiv ("Python 2.x 
+   socket.ssl for win32") herunterladen, um diese nachzurüsten. Laden Sie dazu 
+   einfach das zu Ihrer Python-Version passende Archiv herunter und ersetzen 
+   Sie dann die Datei "_socket.pyd" im Unterverzeichnis "DLLs" durch die 
+   Version aus dem heruntergeladenen Archiv.
+
+1. (Optional) Kopieren Sie das Skript "fetchtowebmail.py" in ein von Ihnen
+   gewähltes Installationsverzeichnis.
+
+2. Öffnen Sie die Datei "fetchtowebmailrc.win32-example" in einem Texteditor 
+   (der Windows-Standardeditor sollte ausreichen) und passen Sie die 
+   Einstellungen an Ihre Anforderungen an.
+   Wenn Sie fertig sind, speichern Sie diese als "fetchtowebmailrc" im selben 
+   Verzeichnis wie das Skript (fetchtowebmail.py).
+
+3. Führen Sie das Skript aus, um Ihre Konfiguration zu testen.
+   Um evtl. auftretende Fehlermeldungen sehen zu können, tun Sie dies am besten
+   entweder direkt auf der Kommandozeile oder Sie verwenden das Skript 
+   "runandwait.py" im Unterverzeichnis win32 dafür, da dieses nach dem 
+   Ausführen einen "Press any key to continue" Prompt anzeigt.
+   Wenn alles klappt, sollten die Webmail-E-Mails wenig später bei der 
+   in der Konfiguration angegebenen Adresse ankommen. 
+   Fertig! :-)
+
+
+Andere Betriebssysteme
+----------------------
+
+Im Großen und Ganzen sollte die Installation ähnlich wie bei unixartigen 
+Systemen oder Windows laufen.
+Also zuerst Python installieren, dann konfigurieren und hoffen, dass 
+fetchtowebmail richtig funktioniert. ;-)
+
+Wenn Sie es auf Ihrem System zum Laufen gebracht haben, wäre es nett, wenn Sie 
+mir einen kurzen "Erfolgsbericht" (an jwolz@freenet.de) schreiben könnten,
+am besten mit einer Zusammenfassung, wie Sie vorgegangen sind, ob etwas 
+besonderes zu beachten ist usw., damit ich diesen bei der nächsten Version
+in dieses Dokument aufnehmen kann.
+

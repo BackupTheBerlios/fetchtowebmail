@@ -1,0 +1,80 @@
+=======================
+ fetchtowebmail README
+=======================
+
+NOTE: fetchtowebmail is still beta software. This means it will still contain
+      lots of bugs. So it's recommended to check if it works correctly from
+      regularly.
+
+Description
+-----------
+
+fetchtowebmail is a Python script that downloads emails from the webmail 
+interface of the German ISP T-Online and forwards them to a different address.
+This is useful since you can't uses POP3 with T-Online if you're dialled in as a
+different user or over a different ISP.
+
+Since fetchtowebmail was developed without any official support from T-Online, 
+you shouldn't rely on it too much, because even small interface changes by 
+T-Online will probably confuse it quite a lot.
+
+Prerequisites for Installation
+------------------------------
+
+Possibility 1: Python version >= 2.4 installed
+Possibility 2: Python version >= 2.2 *and* PycURL (http://pycurl.sf.net) installed
+
+Installation (steps 0-2 don't apply to the standalone .exe version)
+------------
+
+0. Install Python (only if you don't have one installed already, of course).
+   You can download the source code or binaries from http://www.python.org/
+   Be careful to install a version with SSL support. The Windows binaries of
+   versions <= 2.2 won't include it for example.
+   For Windows you can download a package to add SSL from 
+   http://alldunn.com/python/ . To install it, just replace the file
+   "_socket.pyd" in the DLLs subdirectory of your Python installation with the
+   one from that package.
+
+1. (Unix only) Run the script "setup.sh" to add the Python interpreter's 
+   correct (full) path to the script. You can pass it the name of the
+   interpreter executeable as a commandline parameter if you wish (e.g. you 
+   may use something like "./setup.sh python2.2").
+   The altered script is output as "fetchtowebmail" (without the ".py" suffix)
+
+2. (Optional) Copy the script to some extra installation directory.
+   On Unix you may use the script "install.sh" for that.
+
+3. Open the file "fetchtowebmailrc.example.en" in your favourite text editor and
+   edit it to fit your needs.
+   When you're finished, save it as ".fetchtowebmailrc" in your home directory
+   on Unix or as "fetchtowebmailrc" in the same directory as the script on other
+   systems.
+
+4. Run the script to test your configuration.
+   If all works well, the emails should be sent to the forward address you
+   entered.
+   On Windows you can also use the script "runandwait.py" for test runs. It
+   shows a "Press any key to continue" prompt before exiting, to allow you to
+   see the error messages printed.
+
+
+Copyright/legal stuff
+---------------------
+
+fetchtowebmail is released under the GPL. See the file COPYING for details.
+
+All trademarks used in this document are the property of their respective
+owners.
+
+
+Contact
+-------
+
+You can contact me by email at:
+
+jwolz@freenet.de (Jonas Wolz)
+
+Homepage:
+http://www.fetchtowebmail.de.vu/
+
