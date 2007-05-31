@@ -5,7 +5,7 @@
 #                    interface (at https://webmail.t-online.de/) and forwards them
 #                    into your mailbox
 #
-#  Copyright (c) 2003-2005 Jonas Wolz <jwolz@freenet.de>
+#  Copyright (c) 2003-2007 Jonas Wolz <jwolz@freenet.de>
 #
 #
 #  This program is free software; you can redistribute it and/or modify
@@ -163,7 +163,7 @@ class MessageListParser(sgmllib.SGMLParser):
 		self.idlist = []
 		self.checkboxname = ""
 		self.mailids = []
-		self.mailidspresent = []
+		self.mailidsfetched = [] # The list of successfully fetched mailIDs
 		self.foldername = "<default>"
 	
 		# Initialize variables:
@@ -190,6 +190,7 @@ class MessageListParser(sgmllib.SGMLParser):
 			if (not mailer.sendmail(page, self.foldername)):
 				return 0					
 			page.close()
+			self.mailidsfetched.append(id)
 		return 1
 		
 	def deleteidlistmails(self):
@@ -203,7 +204,7 @@ class MessageListParser(sgmllib.SGMLParser):
 		targeturl = urlparse.urljoin(self.url, 'index.php?ctl=message_list')
 		actualpostdata = map(hiddenmap, self.hiddenpostdata) # Convert to list of tuples
 		msglist = ""
-		for id in self.idlist:
+		for id in self.mailidsfetched:
 			msglist += id + " "
 			actualpostdata.append((self.checkboxname, id))
 		do_print("Deleting the following messages: " + msglist, 0)
@@ -252,9 +253,9 @@ class MessageListParser(sgmllib.SGMLParser):
 					
 				id = attdict["value"]
 				if fetchonlynewmails:
-					self.mailidspresent.append(id) # Append to the list of currently used mailids
 					for fetchedid in self.mailids:
 						if (id == fetchedid): # If the ID is in the list ...
+							self.mailidsfetched.append(id) # Append to the list of fetched mailids
 							return # .. exit function (don't download)
 				# end if fetchonlynewmails
 				
@@ -618,9 +619,12 @@ def readconfigfile(file):
 
 # --------------------------------------------------------------------------------------------------------------
 # Constants:
+
 # The script's version:
-version = "0.3.2"
-# The version of the mailids
+#   Don't forget to update win32/setup.py if you change this!
+version = "0.3.3"
+
+# The version number of the mailids
 mailidsver = 2
 
 # -- end of constants
@@ -637,6 +641,9 @@ else:
 	                                                                         #  where the script is installed
 verbosity = 1
 permissioncheck = 1
+
+# The processes' exit code
+exitcode = 0
 
 # Process options:
 processcmdlineopts()
@@ -806,10 +813,10 @@ for folder in pollfolders:
 			mpstack.append(mp)
 		else:
 			do_print("No new mails on page %d of folder \"%s\"." % (npage, folder))
-	
-		new_mailidspresent = mailidspresent.get(folder, [])
-		new_mailidspresent.extend(mp.mailidspresent)
-		mailidspresent[folder] = new_mailidspresent
+			# Append the still present mail ids to the list:
+			new_mailidspresent = mailidspresent.get(mp.foldername, [])
+			new_mailidspresent.extend(mp.mailidsfetched)
+			mailidspresent[mp.foldername] = new_mailidspresent	
 
 		if (mp.nextpage):
 			target =  urlparse.urljoin(target, mp.nextpage)
@@ -825,9 +832,17 @@ if (len(mpstack) > 0): # Do we have any new mails?
 	mailer.connect(target)
 	
 	for mp in mpstack:
-		if (not mp.fetchidlistmails(mailer)):
-			do_print("An error occured fetching mails, bailing out.", 4)
-			sys.exit(2)
+		ok = mp.fetchidlistmails(mailer)
+
+		new_mailidspresent = mailidspresent.get(mp.foldername, [])
+		new_mailidspresent.extend(mp.mailidsfetched)
+		mailidspresent[mp.foldername] = new_mailidspresent
+
+		if (not ok):
+			do_print("An error occured fetching mails, cancelling fetch.", 4)
+			#sys.exit(2)
+			exitcode = 2
+			break
 	mailer.quit()
 	
 	if (deleteafterfetching): # Delete in opposite direction
@@ -850,13 +865,13 @@ if (mp.logoutpage):
 	lp1.feed(saveifdebug(page.read(), "logout1.html"))
 	page.close()
 
-	if (lp1.logoutpage):
-		do_print("Logout Step 2: " + lp1.logoutpage, 0)
-		page = geturl(lp1.logoutpage)
-		saveifdebug(page.read(), "logout2.html")
-		page.close()
-	else:
-		do_print("Logout page #2 not found", 3)	
+#	if (lp1.logoutpage):
+#		do_print("Logout Step 2: " + lp1.logoutpage, 0)
+#		page = geturl(lp1.logoutpage)
+#		saveifdebug(page.read(), "logout2.html")
+#		page.close()
+#	else:
+#		do_print("Logout page #2 not found", 3)	
 else:
 	do_print("Logout page #1 not found.", 3)
 
@@ -864,5 +879,5 @@ else:
 if (usepycurl):
 	globalcurl.close()
 
-sys.exit(0)
+sys.exit(exitcode)
 
