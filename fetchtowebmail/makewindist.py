@@ -3,7 +3,7 @@
 import sys, os, shutil, re, zipfile
 
 # Directory we should copy the source from:
-src_src = "//pc1/jonas/towebmail/dist"
+src_src = "//pc1/jonas/towebmail/repository/fetchtowebmail/dist"
 # Destination dir (its content is DELETED before copying the source):
 src_dst = os.environ["USERPROFILE"] + "/Eigene Dateien/fetchtowebmail-py2exe"
 
