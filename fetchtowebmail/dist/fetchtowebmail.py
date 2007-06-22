@@ -150,7 +150,7 @@ class MessageListParser(sgmllib.SGMLParser):
 	# Handle HTML entitys correctly (we need to handle text normally visible to the user here):
 	from htmlentitydefs import entitydefs
 	logoutname = "Logout"	
-	nextname = "Nächste"
+	nextname = "N&auml;chste Seite"
 	mainformname = "fmform"
 	
 
@@ -301,6 +301,12 @@ class MessageListParser(sgmllib.SGMLParser):
 		if self.lastlink:
 			# we're inside a link
 			self.linktext += data
+
+	def start_img(self, attributes):
+		if self.lastlink:
+			# we're inside a link
+			self.linktext += getattrib("alt", attributes)
+
 	
 # --- end of class MainPageParser
 
@@ -622,7 +628,7 @@ def readconfigfile(file):
 
 # The script's version:
 #   Don't forget to update win32/setup.py if you change this!
-version = "0.3.3"
+version = "0.3.4"
 
 # The version number of the mailids
 mailidsver = 2
