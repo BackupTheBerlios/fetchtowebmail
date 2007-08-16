@@ -10,7 +10,7 @@ if (not os.path.exists("fetchtowebmail.py")):
 	os.chdir("..") # setup.py ist normalerweise im Unterverzeichnis win32
 
 setup(name="fetchtowebmail",
-      version="0.3.4",
+      version="0.3.5",
       description="Downloads mails from T-Online webmail",
       author="Jonas Wolz",
       author_email="jwolz@freenet.de",

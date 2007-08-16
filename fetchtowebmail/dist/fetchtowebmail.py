@@ -70,6 +70,10 @@ usepycurl = 2
 
 # (Extra) folders to poll. "INBOX" is added automatically if not present
 pollfolders = []
+
+# Regular expression that matches SMTP errors that should be ignored
+spamorvirusresponse = None
+
 #-- end of user settings
 
 # Enables debug mode if set to 1:
@@ -176,6 +180,11 @@ class MessageListParser(sgmllib.SGMLParser):
 		self.lastlink = ""
 		self.linktext = ""
 		self.url = ""
+	
+	def feed(self, data):
+		sgmllib.SGMLParser.feed(self, data)
+		# Make sure that the mails are fetched in the same order they have been received
+		self.idlist.reverse()
 
 	# mailer: MyMailer instance to use
 	def fetchidlistmails(self, mailer):
@@ -349,11 +358,10 @@ class MyMailer:
 	def __init__(self):
 		self.receivedline = ""
 		self.tz = "+0"
-
 		
 	# Connects to the SMTP server (if usesmtp=1) and sets the URL for the "Received" line
 	def connect(self, serverfromurl):
-		global usesmtp, smtpserver, smtpuser, smtppass, version
+		global usesmtp, smtpserver, smtpuser, smtppass, version, spamorvirusresponse
 
 		serverfromtupel = urlparse.urlparse(serverfromurl)
 		
@@ -416,7 +424,15 @@ class MyMailer:
                                         fromaddr = "no-user@no-domain.org"
 				self.smtp.sendmail(fromaddr, forwardaddress, getsendtext(msg))
 			except: # Something went wrong ...
-				do_print("Error delivering a mail: %s: %s" % (str(sys.exc_info()[0]), str(sys.exc_info()[1])), 4)
+				exc = sys.exc_info()[1] # The handled exception
+				if spamorvirusresponse and isinstance(exc, smtplib.SMTPException):
+					if hasattr(exc, 'smtp_code') and hasattr(exc, 'smtp_error'):
+						serverresponse = str(exc.smtp_code) + " " + exc.smtp_error
+						if spamorvirusresponse.match(serverresponse):
+							do_print('Ignoring SPAM or virus mail (server responded: "' + serverresponse + '").')
+							return 1
+
+				do_print("Error delivering a mail: %s: %s" % (str(sys.exc_info()[0]), str(exc)), 4)
 				return 0
 		else: # Send mail by piping it into a MDA
 			try:
@@ -547,7 +563,7 @@ def processcmdlineopts():
 
 def readconfigfile(file):
 	global website, username, password, deleteafterfetching, fetchonlynewmails, mailidsfile, usepycurl, pollfolders
-	global forwardaddress, usesmtp, smtpserver, smtpuser, smtppass, mda, addheaderline, prependtosubject
+	global forwardaddress, usesmtp, smtpserver, smtpuser, smtppass, mda, addheaderline, prependtosubject, spamorvirusresponse
 	
 	cparser = ConfigParser.ConfigParser()
 	
@@ -604,7 +620,14 @@ def readconfigfile(file):
 
 		addheaderline = readopt("addheaderline", addheaderline, sect)
 		prependtosubject = readopt("prependtosubject", prependtosubject, sect)
-		
+		spamorvirus_str = readopt("spamorvirusresponse", "", sect)
+
+
+		if spamorvirus_str:
+			spamorvirusresponse = re.compile(spamorvirus_str, re.IGNORECASE)
+		else:
+			spamorvirusresponse = None
+
 		# Expand the home directory in paths:
 		mailidsfile = os.path.expanduser(mailidsfile)
 		if not os.path.isabs(mailidsfile):
@@ -628,7 +651,7 @@ def readconfigfile(file):
 
 # The script's version:
 #   Don't forget to update win32/setup.py if you change this!
-version = "0.3.4"
+version = "0.3.5"
 
 # The version number of the mailids
 mailidsver = 2

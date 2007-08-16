@@ -1,3 +1,11 @@
+2007-08-16  Jonas Wolz <jonas.wolz@freenet.de>
+	* Version: 0.3.5
+
+	* Added option to optionally ignore virus mails or SPAM if rejected
+	* by the SMTP server the mail is forwarded to
+
+	* Mails are now fetched and forwarded in the same order they were received
+
 2007-06-22  Jonas Wolz <jonas.wolz@freenet.de>
 	* Version: 0.3.4
 

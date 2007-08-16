@@ -99,6 +99,22 @@ smtpserver = smtprelay.ihrisp.de
 # Das Passeort
 #smtppass = passwort
 
+# Bei Mailversand über SMTP gibt diese Einstellung einen regulären Ausdruck 
+# (regular expression) an, der die Serverantworten für SPAM oder Virus-Mails beschreibt
+# (Groß-/Kleinschreibung wird ignoriert).
+# D.h.: Wenn der Server eine Mail mit einer auf diesen Ausdruck passenden 
+# Fehlermeldung ablehnt, wird die Mail von fetchtowebmail trotzdem als erfolgreich zugestellt
+# betrachtet.
+#
+# Eine Beschreibung der akzeptierten Syntax finden Sie hier:
+# http://www.python.org/doc/2.4.2/lib/re-syntax.html
+# Beispiele:
+# - Um Code 554 zu ignorieren, verwenden Sie "^554 .*".
+# - Um Code 554 oder 555 zusammen mit dem Text "virus" weiter hinten zu ignorieren: "^(554 .*)|(555 .*virus.*)"
+# - Um Antworten der Form "554 5.7.1 ..." zu ignorieren: "^554 5\.7\.1 .*"
+#spamorvirusresponse = "^554 .*"
+
+
 # An die Standardeingabe des nachfolgend durch mda (Mail Delivery Agent)
 # angegebenen Programms werden die E-Mails weitergeleitet, wenn usesmtp = 0 ist.
 # Dabei wird das Programm für jede weiterzuleitende E-Mail einmal aufgerufen.

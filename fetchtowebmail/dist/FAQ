@@ -12,6 +12,10 @@ A: Ein Workaround für diesen Fall wäre, dass Sie einen SMTP-Relay-Server (z.B.
    mehr über Ihre "Leitung" geschickt werden, was insbesondere bei größeren
    Mails natürlich etwas ungeschickt ist.
 
+   Alternativ könnte für Sie auch die Anleitung unter
+   http://fetchtowebmail.berlios.de/files/towebmail+argosoftmail.pdf
+   interessant sein.
+
 
 F: Welche Kommandozeilenparameter unterstützt fetchtowebmail?
 A: "fetchtowebmail -h" gibt eine Übersicht aus:
@@ -30,8 +34,30 @@ A: "fetchtowebmail -h" gibt eine Übersicht aus:
     fetchtowebmail returns a zero exit code if fetching emails was successful
     or if there were no (new) emails to fetch, non-zero if an error occured.
 
+F: Ich verwende einen HTTPS-Proxy für den Internetzugang. 
+   Wie kann ich fetchtowebmail beibringen, diesen zu benutzen?
+A: fetchtowebmail (bzw. die benutzten Bibliotheken) beachtet automatisch die
+   https_proxy-Umgebungsvariable, sofern diese gesetzt ist.
+
+   In diesem Fall müssen Sie allerdings *zwingend* PycURL verwenden, da urllib2 
+   keine HTTPS-Proxies unterstützt. (zumindest bis einschließlich Python 2.5)
+
+   Kurzanleitung:
+   1. PycURL installieren (bei Debian heißt das Paket z.B. python-pycurl)
+   2. in .fetchtowebmailrc "usepycurl=1" setzen
+   3. https_proxy setzen, also z.B. folgendes in bash eingeben (user, password,
+      host, port natürlich durch die richtigen Werte ersetzen ;-) ): 
+  
+    + Für einen Proxy ohne Passwort:
+      export https_proxy="http://host:port/"
+
+    + Für einen Proxy mit Passwort:
+      export https_proxy="http://user:password@host:port/"
+
+   4. In der selben Shell fetchtowebmail ausführen: Es sollte jetzt über den Proxy gehen
+
 F: Sollte ich PycURL installieren, auch wenn ich Python 2.4 oder höher installiert habe?
-A: Im Prinzip ist es völlig egal.
+A: Im Prinzip ist es völlig egal (außer bei Proxies, s.o.).
    PycURL hat gegenüber den Standard-Python-Bibliotheken (urllib2) leichte 
    Geschwindigkeitsvorteile beim Abruf vieler Mails (da für jede Mail ein eigener
    HTTP-Request gesendet werden muss).

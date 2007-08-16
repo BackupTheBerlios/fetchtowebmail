@@ -80,6 +80,18 @@ smtpserver = localhost
 # The password.
 #smtppass = passwort
 
+# Specifies a regular expression of the "error" server responses that fetchtowebmail
+# also considers as successful delivery (case is ignored).
+#
+# A description of regular expression syntax can be found here:
+# http://www.python.org/doc/2.4.2/lib/re-syntax.html
+# Examples:
+# - To ignore code 554, use "^554 .*".
+# - To ignore code 554 or 555 followed by the a text containing "virus": "^(554 .*)|(555 .*virus.*)"
+# - To ignore responses having the form "554 5.7.1 ...": "^554 5\.7\.1 .*"
+#spamorvirusresponse = "^554 .*"
+
+
 # If usesmtp is 0, the mails are piped into standard input of the application
 # specified by mda. It is called once for each mail to forward.
 #

@@ -56,7 +56,8 @@ Konfiguration
 
 Für eine Beschreibung aller unterstützten Optionen, lesen Sie bitte die 
 Kommentare in fetchtowebmailrc.example.
-Sollten weitere Fragen auftreten, beachten Sie bitte auch die Datei FAQ.
+Sollten weitere Fragen auftreten (z.B. die Konfiguration für Proxies),
+beachten Sie bitte auch die Datei FAQ.
 
 
 Copyright/Rechtliches
