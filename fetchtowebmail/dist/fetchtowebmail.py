@@ -403,7 +403,7 @@ class MyMailer:
 			res += self.receivedline + time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime()) + self.tz
 		
 			if prependtosubject: # Modify subject:
-				mail["Subject"] = prependtosubject + " " + mail["Subject"]
+				mail["Subject"] = prependtosubject + " " + mail.get("Subject", "")
 			#	res += ''.join(mail.headers) + "\n"
 			#	mail.rewindbody()
 			#else:
@@ -651,7 +651,7 @@ def readconfigfile(file):
 
 # The script's version:
 #   Don't forget to update win32/setup.py if you change this!
-version = "0.3.5"
+version = "0.3.6"
 
 # The version number of the mailids
 mailidsver = 2
@@ -824,12 +824,13 @@ mpstack = []
 
 for folder in pollfolders:
 	target = urlparse.urljoin(pagetup[1], "/index.php?ctl=message_list&p[folder]=%s" % folder)
+	targetPostData = None
 	npage = 1
 
 	# Retrieve new pages until we don't have any more "next page" links
 	while True: 
 		do_print("Loading message list for folder %s, page %d: %s" % (folder, npage, target), 0)
-		page = geturl(target)
+		page = geturl(target, targetPostData)
 		mp = MessageListParser()
 		mp.mailids = mailids.get(folder, [])
 		mp.foldername = folder
@@ -847,11 +848,14 @@ for folder in pollfolders:
 			new_mailidspresent.extend(mp.mailidsfetched)
 			mailidspresent[mp.foldername] = new_mailidspresent	
 
+		npage+=1
 		if (mp.nextpage):
-			target =  urlparse.urljoin(target, mp.nextpage)
+			#target = urlparse.urljoin(target, mp.nextpage)
+			postdata = dict(mp.hiddenpostdata)
+			postdata["p[pageSel]"] = npage
+			targetPostData = urllib.urlencode(postdata)
 		else:
 			break
-		npage+=1
 	# end "while True"
 # end "for folder ..."
 
@@ -883,7 +887,7 @@ if (len(mpstack) > 0): # Do we have any new mails?
 		#mailidspresent.insert(0, mailidsver) # Insert the username and version at the beginning
 		#mailidspresent.insert(1, username)
 		idsfile = open(mailidsfile, "w")
-		cPickle.dump([mailidsver, username, mailidspresent], idsfile)
+		cPickle.dump([mailidsver, username.lower(), mailidspresent], idsfile)
 		idsfile.close()
 
 do_print("Logging out...")
