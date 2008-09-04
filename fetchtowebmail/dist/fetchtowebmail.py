@@ -68,6 +68,8 @@ prependtosubject = ""
 # 2: use pycurl if present, else fall back to urllib2
 usepycurl = 2
 
+verifypeer = 1
+
 # (Extra) folders to poll. "INBOX" is added automatically if not present
 pollfolders = []
 
@@ -436,15 +438,15 @@ class MyMailer:
 				return 0
 		else: # Send mail by piping it into a MDA
 			try:
-				pipe = os.popen(mda.replace("%f", mail.getaddr("From")[1]), "w")
-				pipe.write(getsendtext(mail))
+				pipe = os.popen(mda.replace("%f", msg.getaddr("From")[1]), "w")
+				pipe.write(getsendtext(msg))
 			except:
 				do_print("An exception occured writing to the pipe: %s: %s" % (str(sys.exc_info()[0]), str(sys.exc_info()[1])), 4)
 				return 0
 			# end try
 			exitstatus = pipe.close()
 			if (exitstatus != None):
-				do_print('Error delivering a mail: MDA returned %d (From: "%s", Subject: "%s")' % (os.WEXITSTATUS(exitstatus), mail.getaddr("From")[1], mail.getheader("Subject")), 4)
+				do_print('Error delivering a mail: MDA returned %d (From: "%s", Subject: "%s")' % (os.WEXITSTATUS(exitstatus), msg.getaddr("From")[1], msg.getheader("Subject")), 4)
 				return 0
 		# end if usesmtp
 		return 1
@@ -458,6 +460,8 @@ class MyMailer:
 
 # Returns a tuple (file, url)
 def geturl2(url, postdata=None):
+	#if (verbosity <= 0):
+	#	print "geturl:", url
 	if (usepycurl):
 		globalcurl.setopt(pycurl.URL, url)
 		if (postdata == None):
@@ -522,16 +526,18 @@ Options:
   -d, --debugmsg          also print debug messages (this is NOT debug mode)
       --nopermissioncheck don't check if the configuration file has secure 
                           permissions (i.e. that only the owner can read it)
+      --noverifysslpeer   Don't verify the peer's SSL certificate
+                          (not recommended)
 
 fetchtowebmail returns a zero exit code if fetching emails was successful
 or if there were no (new) emails to fetch, non-zero if an error occured. """
 #-- end def printusage()
 
 def processcmdlineopts():
-	global verbosity, configfile, permissioncheck
+	global verbosity, configfile, permissioncheck, verifypeer
 
 	rec_opts     = "hVc:sd"
-	rec_longopts = ["help", "version", "configfile=", "silent", "debugmsg", "nopermissioncheck"]
+	rec_longopts = ["help", "version", "configfile=", "silent", "debugmsg", "nopermissioncheck", "noverifysslpeer"]
 	try:
 		options = getopt.getopt(sys.argv[1:], rec_opts, rec_longopts)
 	except getopt.GetoptError, err:
@@ -558,6 +564,8 @@ def processcmdlineopts():
 			configfile = opt[1] # Set a different configuration file
 		elif (o == "--nopermissioncheck"):
 			permissioncheck = 0
+		elif (o == "--noverifysslpeer"):
+			verifypeer = 0
 	# -- end for opt ...
 # -- end def processcmdlineopts
 
@@ -651,7 +659,7 @@ def readconfigfile(file):
 
 # The script's version:
 #   Don't forget to update win32/setup.py if you change this!
-version = "0.3.6"
+version = "0.3.7"
 
 # The version number of the mailids
 mailidsver = 2
@@ -727,6 +735,7 @@ if usepycurl:
 	globalcurl.setopt(pycurl.MAXREDIRS, 5)
 	globalcurl.setopt(pycurl.COOKIEFILE, "") # Enable cookies
 	globalcurl.setopt(pycurl.ENCODING, "") # Enable compression
+	globalcurl.setopt(pycurl.SSL_VERIFYPEER, verifypeer)
 	if debug:
 		globalcurl.setopt(pycurl.VERBOSE, 1)
 else:

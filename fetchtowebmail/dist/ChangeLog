@@ -1,3 +1,9 @@
+2008-09-04  Jonas Wolz <jonas.wolz@freenet.de>
+	* Version: 0.3.7
+
+	* Small bugfix for MDA mode
+	* New command line option to turn SSL certificate check off
+
 2008-02-27  Jonas Wolz <jonas.wolz@freenet.de>
 	* Version: 0.3.6
 

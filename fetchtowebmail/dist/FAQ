@@ -30,6 +30,8 @@ A: "fetchtowebmail -h" gibt eine Übersicht aus:
       -d, --debugmsg          also print debug messages (this is NOT debug mode)
           --nopermissioncheck don't check if the configuration file has secure
                               permissions (i.e. that only the owner can read it)
+          --noverifysslpeer   Don't verify the peer's SSL certificate
+                              (not recommended)
 
     fetchtowebmail returns a zero exit code if fetching emails was successful
     or if there were no (new) emails to fetch, non-zero if an error occured.
