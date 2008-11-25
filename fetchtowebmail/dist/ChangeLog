@@ -1,3 +1,7 @@
+2008-11-25  Jonas Wolz <jonas.wolz@freenet.de>
+	* Integrated patch to detect a SPAM or Virus response
+	* (from Jochen Eisinger)
+
 2008-09-04  Jonas Wolz <jonas.wolz@freenet.de>
 	* Version: 0.3.7
 

@@ -428,8 +428,12 @@ class MyMailer:
 			except: # Something went wrong ...
 				exc = sys.exc_info()[1] # The handled exception
 				if spamorvirusresponse and isinstance(exc, smtplib.SMTPException):
-					if hasattr(exc, 'smtp_code') and hasattr(exc, 'smtp_error'):
-						serverresponse = str(exc.smtp_code) + " " + exc.smtp_error
+					if (hasattr(exc, 'smtp_code') and hasattr(exc, 'smtp_error')) or hasattr(exc, 'recipients'):
+						if hasattr(exc, 'smtp_code') and hasattr(exc, 'smtp_error'):
+							serverresponse = str(exc.smtp_code) + " " + exc.smtp_error
+						else:
+							(code,error) = exc.recipients[forwardaddress]
+							serverresponse = str(code) + " " + error
 						if spamorvirusresponse.match(serverresponse):
 							do_print('Ignoring SPAM or virus mail (server responded: "' + serverresponse + '").')
 							return 1

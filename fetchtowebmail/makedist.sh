@@ -7,7 +7,7 @@ RMFILES="fetchtowebmail"
 
 # Extract the version from the source:
 VERSION=$(awk "/version = [\"']([0-9]+\..+)[\"']/ { split(\$0, V, /[ \t\n\"']+/); print V[3] }" $DISTDIR/fetchtowebmail.py)
-TARBALL="../fetchtowebmail-$VERSION.tar.gz"
+TARBALL="fetchtowebmail-$VERSION.tar.gz"
 
 
 cd $DISTDIR
@@ -16,6 +16,10 @@ echo Cleaning $DISTDIR ...
 rm -f $RMFILES
 
 echo Creating $TARBALL from $DISTDIR ...
+cd ..
+DIR="fetchtowebmail-$VERSION"
+ln -s dist $DIR
 # Make a tar archive
-tar -cvzf $TARBALL *
+tar -cvhzf $TARBALL $DIR
+rm -f $DIR
 
