@@ -10,10 +10,9 @@ Installationsvoraussetzungen
 *Eine* der folgenden Voraussetzungen muss erfüllt sein:
 
 Möglichkeit 1:
-Python Version >= 2.4 ist installiert
+Python Version >= 2.4, aber < 3.0 ist installiert
 Möglichkeit 2:
-Python Version >= 2.2 *und* PycURL (http://pycurl.sf.net) ist installiert
-
+Python Version >= 2.2, aber < 3.0 *und* PycURL (http://pycurl.sf.net) ist installiert
 
 Linux/*BSD/andere "unixartige" Systeme
 --------------------------------------

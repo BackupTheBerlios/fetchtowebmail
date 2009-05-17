@@ -663,7 +663,7 @@ def readconfigfile(file):
 
 # The script's version:
 #   Don't forget to update win32/setup.py if you change this!
-version = "0.3.7"
+version = "0.3.8"
 
 # The version number of the mailids
 mailidsver = 2
@@ -836,7 +836,7 @@ if fetchonlynewmails: # Load the IDs file if necessary
 mpstack = []
 
 for folder in pollfolders:
-	target = urlparse.urljoin(pagetup[1], "/index.php?ctl=message_list&p[folder]=%s" % folder)
+	target = urlparse.urljoin(pagetup[1], "index.php?ctl=message_list&p[folder]=%s" % folder)
 	targetPostData = None
 	npage = 1
 
