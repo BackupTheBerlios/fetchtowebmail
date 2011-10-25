@@ -31,7 +31,7 @@ useunixstyle = (os.name == "posix") # if this is true, use unix-specific stuff
 
 #Default settings:
 #  Retrieval settings:
-website = "https://webmail.t-online.de/" # You usually don't want to change this
+website = "https://email.t-online.de/kc/" # You usually don't want to change this
 username = ""
 password = ""
 
@@ -663,7 +663,7 @@ def readconfigfile(file):
 
 # The script's version:
 #   Don't forget to update win32/setup.py if you change this!
-version = "0.3.8"
+version = "0.3.8a"
 
 # The version number of the mailids
 mailidsver = 2
